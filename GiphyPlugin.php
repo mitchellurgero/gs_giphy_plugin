@@ -65,12 +65,4 @@ class GiphyPlugin extends Plugin
 	    $n = rand(0, $count - 1);
 	    return $jsonData['data'][$n]['images']['downsized_medium']['url'];
 	}
-	static function downloadpic($url){
-	    $type = array_pop((array_slice(explode(".",$url), -1)));
-	    $imgname = "./".time().".".$type;
-	    $image = file_get_contents($url);
-	    file_put_contents($imgname, $image); //Temp file
-	    echo "File:".realpath("$imgname")."\r\n";
-	    return realpath($imgname);
-	}
 }
