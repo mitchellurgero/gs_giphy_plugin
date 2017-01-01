@@ -1,7 +1,11 @@
 # Giphy Plugin for GNU Social
 ------------------------------
 Simple plugin to check each posted local notice (Or tweet, or Quip) for the #giphy hashtag and insert a GIF image using the string after.
-Example: `#giphy hello world` 
+Example: `#giphy hello world`
+
+## Known Issues
+
+- For now in Qvitter the UI does not update properly when posting a ```#giphy``` hashtagged post. I am looking into this, but it is most likely because the post changes during the save to the db.
 
 ## Installing
 
