@@ -12,6 +12,7 @@ Example: `#giphy hello world`
 1. ```cd /var/www/html/plugins``` (Or you GS Plugins directory)
 2. ```git clone https://github.com/mitchellurgero/gs_giphy_plugin```
 3. Make sure permissions make sense in web server
+4. In ```config.php``` put: ```addPlugin('Giphy');```
 
 ## Updating
 
