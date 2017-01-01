@@ -5,10 +5,10 @@ Example: `#giphy hello world`
 
 ## Installing
 
-1. `cd /var/www/html/plugins` (Or you GS Plugins directory
-2. `git clone https://github.com/mitchellurgero/gs_giphy_plugin`
+1. ```cd /var/www/html/plugins``` (Or you GS Plugins directory)
+2. ```git clone https://github.com/mitchellurgero/gs_giphy_plugin```
 3. Make sure permissions make sense in web server
 
 ## Updating
 
-Just go into the `plugin/giphy` directory and type: `git pull` to update.
+Just go into the ```plugin/giphy``` directory and type: ```git pull``` to update.
