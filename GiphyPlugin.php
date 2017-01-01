@@ -60,9 +60,21 @@ class GiphyPlugin extends Plugin
 	    curl_close($curlSession);
 	    $count = count($jsonData['data']);
 	    if($count === 0){
-			return true;
+			return "No GIF's found for that tag.";
 	    }
-	    $n = rand(0, $count - 1);
+	    $n = self::getRand($count);
 	    return $jsonData['data'][$n]['images']['downsized_medium']['url'];
+	}
+	static function getRand($count){
+		//rand(0, $count - 1);
+		$t1 = rand(0,9);
+		$t2 = rand(0, $count);
+		if($t1 <= 7 && $count >= 7){
+			return rand(0, 4);
+		} else {
+			return $t2;
+		}
+		
+		return $number;
 	}
 }
