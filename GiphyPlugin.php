@@ -33,18 +33,18 @@ class GiphyPlugin extends Plugin
 		if ($notice1->isLocal()){
 			$callname = self::settings("hashtag");
 			$orig = $notice1->content;
-	        preg_match("/#(\w+)/", $orig, $matches);
-	        $tbool = false;
-	        foreach($matches as $m){
-	        	if($m == $callname || $m == "#$callname"){
-	        		$tbool = true;	
-	        	}
-	        }
-	        if(!$tbool){ return true; }
-	        $elements = explode("#$callname", $orig); 
-	        $tags = trim(str_replace("#","",$elements[1]));
+			preg_match("/#(\w+)/", $orig, $matches);
+			$tbool = false;
+			foreach($matches as $m){
+				if($m == $callname || $m == "#$callname"){
+					$tbool = true;	
+				}
+			}
+			if(!$tbool){ return true; }
+			$elements = explode("#$callname", $orig); 
+			$tags = trim(str_replace("#","",$elements[1]));
 			$image = self::getGIF($tags); //Returns Proper URL for GIF image
-			$notice1->content = $orig."\r\n".$image;
+			$notice1->rendered = $orig."\r\n".$image;
 		}
 		return true;
 	}
