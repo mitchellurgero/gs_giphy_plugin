@@ -37,19 +37,21 @@ class GiphyPlugin extends Plugin
 			$tbool = false;
 			foreach($matches as $m){
 				if($m == $callname || $m == "#$callname"){
-					$tbool = true;	
+					$tbool = true;
 				}
 			}
 			if(!$tbool){ return true; }
-			$elements = explode("#$callname", $orig); 
-			$tags = trim(str_replace("#","",$elements[1]));
-			$image = self::getGIF($tags); //Returns Proper URL for GIF image
-			$notice1->rendered = $orig."\r\n".$image;
+			list(,$gif_req_str) = explode("#$callname ", $orig);
+			$image = self::getGIF(trim($gif_req_str)); //Returns Proper URL for GIF image
+			$notice1->content = $orig."\r\n".$image;
+			if($image == "No GIF's found for that tag."){
+				$notice1->rendered = $orig."<br />".$image;
+			}
 		}
 		return true;
 	}
 	static function getGIF($tags){
-		$booruapiurl = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
+	    $booruapiurl = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
 	    $tags2 = str_replace(" ", "+", $tags);
 	    $curlSession = curl_init();
 	    curl_setopt($curlSession, CURLOPT_URL, $booruapiurl.$tags2);
@@ -59,21 +61,19 @@ class GiphyPlugin extends Plugin
 	    curl_close($curlSession);
 	    $count = count($jsonData['data']);
 	    if($count === 0){
-			return "No GIF's found for that tag.";
+		return "No GIF's found for that tag.";
 	    }
 	    $n = self::getRand($count);
 	    return $jsonData['data'][$n]['images']['downsized_medium']['url'];
 	}
 	static function getRand($count){
-		//rand(0, $count - 1);
-		$t1 = rand(0,9);
-		$t2 = rand(0, $count);
+		$t1 = rand(0, 9);
+		$t2 = rand(0, $count - 1);
 		if($t1 <= 7 && $count >= 7){
 			return rand(0, 4);
 		} else {
 			return $t2;
 		}
-		
 		return $number;
 	}
 }
