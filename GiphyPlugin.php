@@ -52,7 +52,6 @@ class GiphyPlugin extends Plugin
 		$booruapiurl = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
 	    $tags2 = str_replace(" ", "+", $tags);
 	    $curlSession = curl_init();
-	    echo "URL: ".$booruapiurl.$tags2."\r\n";
 	    curl_setopt($curlSession, CURLOPT_URL, $booruapiurl.$tags2);
 	    curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 	    curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
