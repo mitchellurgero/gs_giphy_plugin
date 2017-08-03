@@ -44,38 +44,22 @@ class GiphyPlugin extends Plugin
 			if(!$tbool){ return true; }
 			list(,$gif_req_str) = explode("#$callname ", $orig);
 			$image = self::getGIF(trim($gif_req_str)); //Returns Proper URL for GIF image
-			$image = explode("|",$image);
-			if(count($image) == 2){
-				$notice1->content = $orig."\r\n".$image[0]."\r\n".$image[1];
-			} else {
-				$notice1->content = $orig."\r\n".$image[0];
-			}
-			
-			if($image == "No GIF's found for that tag."){
-				$notice1->rendered = $notice1->rendered."<br />".$image."<br />";
-				return true;
-			}
-			$notice1->rendered = $notice1->rendered."<br /><a href=\"".$image[0]."\">".$image[1]."</a><br />";
+			$notice1->content = $orig."\r\n".$image;
+			$notice1->rendered = $notice1->rendered."<br /><a href=\"".$image."\">".$image."</a><br />";
 		}
 		return true;
 	}
 	static function getGIF($tags){
-	    $booruapiurl = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=";
+	    $booruapiurl = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&q=";
 	    $tags2 = str_replace(" ", "+", $tags);
 	    $curlSession = curl_init();
 	    curl_setopt($curlSession, CURLOPT_URL, $booruapiurl.$tags2);
 	    curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 	    curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 	    $jsonData = json_decode(curl_exec($curlSession), true);
-	    curl_close($curlSession);
-	    $count = count($jsonData['data']);
-	    if($count === 0){
-		return "No GIF's found for that tag.";
-	    }
-	    $n = self::getRand($count);
-	    $image = $jsonData['data'][$n]['images']['downsized_medium']['url'];
-	    $image = explode("?", $image);
-	    return $jsonData['data'][$n]['embed_url']."|".$image[0];
+	    $image = $jsonData['data']['image_url'];
+	    //$image = explode("?", $image);
+	    return $image;
 	}
 	static function getRand($count){
 		$t1 = rand(0, 9);
