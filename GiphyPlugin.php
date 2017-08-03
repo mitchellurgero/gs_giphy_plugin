@@ -44,12 +44,18 @@ class GiphyPlugin extends Plugin
 			if(!$tbool){ return true; }
 			list(,$gif_req_str) = explode("#$callname ", $orig);
 			$image = self::getGIF(trim($gif_req_str)); //Returns Proper URL for GIF image
-			$notice1->content = $orig."\r\n".$image;
+			$image = explode("|",$image);
+			if(count($image) == 2){
+				$notice1->content = $orig."\r\n".$image[0]."\r\n".$image[1];
+			} else {
+				$notice1->content = $orig."\r\n".$image[0];
+			}
+			
 			if($image == "No GIF's found for that tag."){
 				$notice1->rendered = $notice1->rendered."<br />".$image."<br />";
 				return true;
 			}
-			$notice1->rendered = $notice1->rendered."<br /><a href=\"".$image."\">$image</a><br />";
+			$notice1->rendered = $notice1->rendered."<br /><a href=\"".$image[0]."\">".$image[1]."</a><br />";
 		}
 		return true;
 	}
@@ -69,7 +75,7 @@ class GiphyPlugin extends Plugin
 	    $n = self::getRand($count);
 	    $image = $jsonData['data'][$n]['images']['downsized_medium']['url'];
 	    $image = explode("?", $image);
-	    return $image[0];
+	    return $jsonData['data'][$n]['embed_url']."|".$image[0];
 	}
 	static function getRand($count){
 		$t1 = rand(0, 9);
