@@ -31,6 +31,7 @@ class GiphyPlugin extends Plugin
 	}
 	public function onStartNoticeSave($notice1){
 		if ($notice1->isLocal()){
+			
 			$callname = self::settings("hashtag");
 			$orig = $notice1->content;
 			preg_match("/#(\w+)/", $orig, $matches);
@@ -45,8 +46,10 @@ class GiphyPlugin extends Plugin
 			$image = self::getGIF(trim($gif_req_str)); //Returns Proper URL for GIF image
 			$notice1->content = $orig."\r\n".$image;
 			if($image == "No GIF's found for that tag."){
-				$notice1->rendered = $notice1->rendered."<br />".$image;
+				$notice1->rendered = $notice1->rendered."<br />".$image."<br />";
+				return true;
 			}
+			$notice1->rendered = $notice1->rendered."<br /><a href=\"".$image."\">$image</a><br />";
 		}
 		return true;
 	}
@@ -64,7 +67,9 @@ class GiphyPlugin extends Plugin
 		return "No GIF's found for that tag.";
 	    }
 	    $n = self::getRand($count);
-	    return $jsonData['data'][$n]['images']['downsized_medium']['url'];
+	    $image = $jsonData['data'][$n]['images']['downsized_medium']['url'];
+	    $image = explode("?", $image);
+	    return $image[0];
 	}
 	static function getRand($count){
 		$t1 = rand(0, 9);
